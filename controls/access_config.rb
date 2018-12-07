@@ -72,22 +72,24 @@ end
 
 ## LSA Authentication
 # @link: https://msdn.microsoft.com/en-us/library/windows/desktop/aa378326(v=vs.85).aspx
-
+# CIS 2.3.11 - Network Security
 control 'windows-base-201' do
   impact 1.0
   title 'Strong Windows NTLMv2 Authentication Enabled; Weak LM Disabled'
   desc '
     @link: http://support.microsoft.com/en-us/kb/823659
   '
+  tag cis: ['windows_2016_1607:2.3.11.7']
   describe registry_key('HKLM\System\CurrentControlSet\Control\Lsa') do
     it { should exist }
-    its('LmCompatibilityLevel') { should eq 4 }
+    its('LmCompatibilityLevel') { should eq 5 }
   end
 end
 
 control 'windows-base-202' do
   impact 1.0
   title 'Enable Strong Encryption for Windows Network Sessions on Clients'
+  tag cis: ['windows_2016_1607:2.3.11.9']
   describe registry_key('HKLM\System\CurrentControlSet\Control\Lsa\MSV1_0') do
     it { should exist }
     its('NtlmMinClientSec') { should eq 537_395_200 }
@@ -97,6 +99,7 @@ end
 control 'windows-base-203' do
   impact 1.0
   title 'Enable Strong Encryption for Windows Network Sessions on Servers'
+  tag cis: ['windows_2016_1607:2.3.11.10']
   describe registry_key('HKLM\System\CurrentControlSet\Control\Lsa\MSV1_0') do
     it { should exist }
     its('NtlmMinServerSec') { should eq 537_395_200 }
